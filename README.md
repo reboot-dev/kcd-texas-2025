@@ -1,4 +1,4 @@
-# Reboot Bank - KDC Texas 2025
+# Reboot Bank - KCD Texas 2025
 
 For the impatient:
 
