@@ -2,6 +2,32 @@ import { Mutation, RebootClientProvider } from "@reboot-dev/reboot-react";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { SignUpRequest, useBank } from "./api/bank/v1/bank_rbt_react";
 import "./App.css";
+import { useAccount, UseAccountApi } from "./api/bank/v1/account_rbt_react";
+
+interface DepositButtonProps {
+  accountId: string;
+  handleClick: () => void;
+  amount: string;
+}
+
+const DepositButton = ({
+  accountId,
+  handleClick,
+  amount,
+}: DepositButtonProps) => {
+  console.log("accountId", accountId);
+  const { deposit } = useAccount({ id: accountId });
+
+  const handleDeposit = () => {
+    deposit({ amount: BigInt(amount) });
+    handleClick();
+  };
+  return (
+    <button onClick={handleDeposit} style={cl.button}>
+      Deposit
+    </button>
+  );
+};
 
 const Deposit: FC<{}> = () => {
   const [accountId, setAccountId] = useState("");
@@ -15,7 +41,6 @@ const Deposit: FC<{}> = () => {
   );
 
   const handleClick = () => {
-    bank.depositToAccount({ accountId, amount: BigInt(amount) });
     setAccountId("");
     setAmount("");
   };
@@ -33,9 +58,15 @@ const Deposit: FC<{}> = () => {
         onChange={(e) => setAmount((e.target as HTMLSelectElement).value)}
         value={amount}
       />
-      <button onClick={handleClick} style={cl.button}>
-        Deposit
-      </button>
+      {accountId === "" ? (
+        <button style={cl.button}>Deposit</button>
+      ) : (
+        <DepositButton
+          accountId={accountId}
+          handleClick={handleClick}
+          amount={amount}
+        />
+      )}
     </FormCard>
   );
 };

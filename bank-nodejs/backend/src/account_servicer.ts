@@ -51,6 +51,7 @@ export class AccountServicer extends Account.Servicer {
     state: Account.State,
     request: DepositRequest
   ): Promise<PartialMessage<DepositResponse>> {
+    console.log("Deposit on the backend!", request.amount);
     state.balance += request.amount;
 
     return {};
