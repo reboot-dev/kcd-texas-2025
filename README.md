@@ -12,9 +12,8 @@ For the impatient:
 This repository contains a simple example application written using Reboot.
 
 The [Reboot '.proto' definitions](https://docs.reboot.dev/develop/schema#code-generation)
-can be found in the `api/` directory, grouped into
-subdirectories by proto package, while backend specific code can be
-found in `backend/` and front end specific code in `web/`.
+can be found in the `bank-nodejs/api/` and `bank-python/api/` directories while backend specific code can be
+found in `bank-nodejs/backend/`, `bank-python/backend/` and front end specific code in `bank-web/`.
 
 _For more information on all of the Reboot examples, please [see the docs](https://docs.reboot.dev/get_started/examples)._
 
@@ -60,7 +59,7 @@ Now you're ready to [run the application](#run-the-application)!
 
 ## Run the application
 
-### Backend - bank-python
+### Backend - bank-python/backend
 
 Our backend is implemented in Python and we must install its dependencies before
 running it. The most notable of those dependencies is the `reboot` PyPI
@@ -86,7 +85,7 @@ Running `rbt dev run` will watch for file modifications and restart the
 application if necessary. See the `.rbtrc` file for flags and
 arguments that get expanded when running `rbt dev run`.
 
-### Backend - bank-nodejs
+### Backend - bank-nodejs/backnd
 
 Our backend is implemented in TS and we must install its dependencies before
 running it. The most notable of those dependencies is the `@reboot-dev/reboot`
@@ -105,9 +104,9 @@ Then, to run the application, you can use the Reboot CLI `rbt` (present in the a
 npx rbt dev run
 ```
 
-Running `rbt dev run` will watch for file modifications and restart the
+Running `npx rbt dev run` will watch for file modifications and restart the
 application if necessary. See the `.rbtrc` file for flags and
-arguments that get expanded when running `rbt dev run`.
+arguments that get expanded when running `npx rbt dev run`.
 
 ### Front end
 
