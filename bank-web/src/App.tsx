@@ -1,8 +1,7 @@
 import { Mutation, RebootClientProvider } from "@reboot-dev/reboot-react";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
-import { SignUpRequest, useBank } from "./api/bank/v1/bank_rbt_react";
+import { SignUpRequest, useAccount, useBank } from "./api/bank/v1/bank_rbt_react";
 import "./App.css";
-import { useAccount } from "./api/bank/v1/account_rbt_react";
 
 const BANK_ID = "reboot-bank";
 

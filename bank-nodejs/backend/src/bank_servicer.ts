@@ -1,9 +1,10 @@
 import { PartialMessage } from "@bufbuild/protobuf";
 import { ReaderContext, TransactionContext, allow } from "@reboot-dev/reboot";
-import { Account } from "../../api/bank/v1/account_rbt.js";
 import {
+  Account,
   AccountBalancesRequest,
   AccountBalancesResponse,
+  Bank,
   CreateRequest,
   CreateResponse,
   DepositToAccountRequest,
@@ -12,8 +13,7 @@ import {
   SignUpResponse,
   TransferRequest,
   TransferResponse,
-} from "../../api/bank/v1/bank_pb.js";
-import { Bank } from "../../api/bank/v1/bank_rbt.js";
+} from "../../api/bank/v1/bank_rbt.js";
 
 function randomIntFromInterval(min: number, max: number): number {
   // Min / max inclusive.

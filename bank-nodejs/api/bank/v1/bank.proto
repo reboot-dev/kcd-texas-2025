@@ -4,17 +4,99 @@ package bank.v1;
 
 import "rbt/v1alpha1/options.proto";
 
-import "bank/v1/errors.proto";
+////////////////////////////////////////////////////////////////////////
+
+service AccountMethods {
+  rpc Balance(BalanceRequest) returns (BalanceResponse) {
+    option (rbt.v1alpha1.method) = {
+      reader: {},
+    };
+  }
+
+  rpc Deposit(DepositRequest) returns (DepositResponse) {
+    option (rbt.v1alpha1.method) = {
+      writer: {},
+    };
+  }
+
+  rpc Withdraw(WithdrawRequest) returns (WithdrawResponse) {
+    option (rbt.v1alpha1.method) = {
+      writer: {},
+      errors: [ "OverdraftError" ],
+    };
+  }
+
+  rpc Open(OpenRequest) returns (OpenResponse) {
+    option (rbt.v1alpha1.method) = {
+      writer: {
+        constructor: {},
+      },
+    };
+  }
+
+  rpc Interest(InterestRequest) returns (InterestResponse) {
+    option (rbt.v1alpha1.method) = {
+      workflow: {},
+    };
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+message Account {
+  option (rbt.v1alpha1.state) = {
+  };
+
+  string name = 1;
+  int64 balance = 2;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+message OverdraftError {
+  // Amount that we would have overdraft.
+  uint64 amount = 1;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+message BalanceRequest {}
+
+message BalanceResponse {
+  int64 amount = 1;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+message DepositRequest {
+  uint64 amount = 1;
+}
+
+message DepositResponse {}
+
+////////////////////////////////////////////////////////////////////////
+
+message WithdrawRequest {
+  uint64 amount = 1;
+}
+
+message WithdrawResponse {}
+
+////////////////////////////////////////////////////////////////////////
+
+message OpenRequest {}
+
+message OpenResponse {}
+
+////////////////////////////////////////////////////////////////////////
+
+message InterestRequest {}
+
+message InterestResponse {}
 
 ////////////////////////////////////////////////////////////////////////
 
 service BankMethods {
-  rpc DepositToAccount(DepositToAccountRequest)
-      returns (DepositToAccountResponse) {
-    option (rbt.v1alpha1.method).transaction = {
-    };
-  }
-
   rpc Create(CreateRequest) returns (CreateResponse) {
     option (rbt.v1alpha1.method).transaction = {
       constructor: {},
@@ -22,20 +104,28 @@ service BankMethods {
   }
 
   rpc SignUp(SignUpRequest) returns (SignUpResponse) {
-    option (rbt.v1alpha1.method).transaction = {
+    option (rbt.v1alpha1.method) = {
+      transaction: {}
     };
   }
 
   rpc Transfer(TransferRequest) returns (TransferResponse) {
     option (rbt.v1alpha1.method) = {
       transaction: {},
-      errors: [ "OverdraftError" ],
     };
   }
 
   rpc AccountBalances(AccountBalancesRequest)
       returns (AccountBalancesResponse) {
-    option (rbt.v1alpha1.method).reader = {
+    option (rbt.v1alpha1.method) = {
+      reader: {},
+    };
+  }
+
+  rpc UpgradeOfferWorkflow(UpgradeOfferWorkflowRequest)
+      returns (UpgradeOfferWorkflowResponse) {
+    option (rbt.v1alpha1.method) = {
+      workflow: {},
     };
   }
 }
@@ -45,17 +135,10 @@ service BankMethods {
 message Bank {
   option (rbt.v1alpha1.state) = {
   };
-  repeated string account_ids = 1;
+
+  // ID for underlying `SortedMap` of account IDs.
+  string account_ids_map_id = 1;
 }
-
-////////////////////////////////////////////////////////////////////////
-
-message DepositToAccountRequest {
-  string account_id = 1;
-  uint64 amount = 2;
-}
-
-message DepositToAccountResponse {}
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -77,10 +160,11 @@ message SignUpResponse {}
 message TransferRequest {
   string from_account_id = 1;
   string to_account_id = 2;
-  int64 amount = 3;
+  uint64 amount = 3;
 }
 
 message TransferResponse {}
+
 ////////////////////////////////////////////////////////////////////////
 
 message Balance {
@@ -95,5 +179,13 @@ message AccountBalancesRequest {}
 message AccountBalancesResponse {
   repeated Balance balances = 1;
 }
+
+////////////////////////////////////////////////////////////////////////
+
+message UpgradeOfferWorkflowRequest {
+  string account_id = 1;
+}
+
+message UpgradeOfferWorkflowResponse {}
 
 ////////////////////////////////////////////////////////////////////////

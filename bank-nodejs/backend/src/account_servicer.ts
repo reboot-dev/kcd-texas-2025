@@ -1,6 +1,7 @@
 import { PartialMessage } from "@bufbuild/protobuf";
 import { ReaderContext, WriterContext, allow } from "@reboot-dev/reboot";
 import {
+  Account,
   BalanceRequest,
   BalanceResponse,
   DepositRequest,
@@ -9,13 +10,12 @@ import {
   InterestResponse,
   OpenRequest,
   OpenResponse,
+  OverdraftError,
   WelcomeEmailRequest,
   WelcomeEmailResponse,
   WithdrawRequest,
   WithdrawResponse,
-} from "../../api/bank/v1/account_pb.js";
-import { Account } from "../../api/bank/v1/account_rbt.js";
-import { OverdraftError } from "../../api/bank/v1/errors_pb.js";
+} from "../../api/bank/v1/bank_rbt.js";
 
 export class AccountServicer extends Account.Servicer {
   authorizer() {

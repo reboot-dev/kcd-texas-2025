@@ -169,7 +169,7 @@ message TransferResponse {}
 
 message Balance {
   string account_id = 1;
-  int64 balance = 2;
+  int32 balance = 2;
 }
 
 ////////////////////////////////////////////////////////////////////////
