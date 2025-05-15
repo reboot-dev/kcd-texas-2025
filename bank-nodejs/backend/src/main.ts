@@ -92,9 +92,6 @@ export class AccountServicer extends Account.Servicer {
     // Since this is a constructor, we are setting the initial state of the
     // state machine.
 
-    // We'd like to send the new customer a welcome email, but that can be
-    // done asynchronously, so we schedule it as a task.
-    // const taskId = await this.ref().schedule().welcomeEmail(context);
     await this.ref().schedule().interest(context);
 
     return {};
@@ -121,61 +118,12 @@ export class AccountServicer extends Account.Servicer {
 
     return new Loop({ when });
   }
-
-  // async welcomeEmail(
-  //   context: WriterContext,
-  //   state: Account.State,
-  //   request: WelcomeEmailRequest
-  // ): Promise<PartialMessage<WelcomeEmailResponse>> {
-  //   const messageBody = `
-  //     Hello ${state.name},
-
-  //     We are delighted to welcome you as a customer.
-  //     Your new account has been opened, and has ID '${context.stateId}'.
-
-  //     Best regards,
-  //     Your Bank
-  //   `;
-
-  //   await sendEmail({ messageBody });
-
-  //   return {};
-  // }
 }
 
 export class BankServicer extends Bank.Servicer {
   authorizer() {
     return allow();
   }
-
-  // async PickNewAccountId(state: Bank.State): Promise<string> {
-  //   // Transactions normally observe state through Reader calls. However for
-  //   // convenience, it is possible to do an inline read of the state of this
-  //   // state machine, which is like calling a Reader that simply returns the
-  //   // whole state of the state machine.
-
-  //   while (true) {
-  //     const newAccountId = String(randomIntFromInterval(1000000, 9999999));
-  //     if (!state.accountIds.includes(newAccountId)) {
-  //       return newAccountId;
-  //     }
-  //   }
-  // }
-
-  // async depositToAccount(
-  //   context: TransactionContext,
-  //   state: Bank.State,
-  //   request: DepositToAccountRequest
-  // ): Promise<PartialMessage<DepositToAccountResponse>> {
-  //   const { accountId, amount } = request;
-
-  //   const account = Account.ref(accountId);
-  //   await account.deposit(context, {
-  //     amount: amount,
-  //   });
-
-  //   return {};
-  // }
 
   async create(
     context: TransactionContext,
@@ -279,19 +227,6 @@ export class BankServicer extends Bank.Servicer {
     return {};
   }
 }
-
-const sendEmail = ({ messageBody }: { messageBody: string }) => {
-  // We're not actually going to send an email here; but you could!
-  //
-  // If you do send real emails, please be sure to use an idempotent API, since
-  // (like in any well-written distributed system) this call may be retried in
-  // case of errors.
-  console.log(`
-    Sending email:
-
-    ${messageBody}
-  `);
-};
 
 const initialize = async (context) => {
   // Perform a sign up to ensure that the bank has been implicitly
