@@ -4,8 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:backend": "cd backend && npx rbt dev run",
-    "dev:web": "cd web && npm start"
+    "dev:backend": "cd backend && npx rbt dev run"
   },
   "dependencies": {
     "@reboot-dev/reboot": "0.25.2",

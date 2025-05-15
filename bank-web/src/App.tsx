@@ -2,7 +2,9 @@ import { Mutation, RebootClientProvider } from "@reboot-dev/reboot-react";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { SignUpRequest, useBank } from "./api/bank/v1/bank_rbt_react";
 import "./App.css";
-import { useAccount, UseAccountApi } from "./api/bank/v1/account_rbt_react";
+import { useAccount } from "./api/bank/v1/account_rbt_react";
+
+const BANK_ID = "reboot-bank";
 
 interface DepositButtonProps {
   accountId: string;
@@ -15,13 +17,13 @@ const DepositButton = ({
   handleClick,
   amount,
 }: DepositButtonProps) => {
-  console.log("accountId", accountId);
-  const { deposit } = useAccount({ id: accountId });
+  const account = useAccount({ id: accountId });
 
-  const handleDeposit = () => {
-    deposit({ amount: BigInt(amount) });
+  const handleDeposit = async () => {
+    await account.deposit({ amount: BigInt(amount) });
     handleClick();
   };
+
   return (
     <button onClick={handleDeposit} style={cl.button}>
       Deposit
@@ -33,7 +35,7 @@ const Deposit: FC<{}> = () => {
   const [accountId, setAccountId] = useState("");
   const [amount, setAmount] = useState("");
 
-  const bank = useBank({ id: "reboot-bank" });
+  const bank = useBank({ id: BANK_ID });
   const { response } = bank.useAccountBalances();
 
   const accountIds: string[] = (response?.balances || []).map(
@@ -75,7 +77,7 @@ const SignUp: FC<{}> = () => {
   const [accountId, setAccountId] = useState("");
   const [initialDeposit, setInitialDeposit] = useState("");
 
-  const bank = useBank({ id: "reboot-bank" });
+  const bank = useBank({ id: BANK_ID });
 
   const handleClick = () => {
     bank.signUp({ accountId, initialDeposit: BigInt(initialDeposit) });
@@ -109,7 +111,7 @@ const Transfer: FC<{}> = () => {
   const [toAccountId, setToAccountId] = useState("");
   const [amount, setAmount] = useState("");
 
-  const bank = useBank({ id: "reboot-bank" });
+  const bank = useBank({ id: BANK_ID });
 
   const { response } = bank.useAccountBalances();
 
@@ -186,7 +188,7 @@ const AccountBalances: FC<{
 };
 
 const Accounts: FC<{}> = () => {
-  const bank = useBank({ id: "reboot-bank" });
+  const bank = useBank({ id: BANK_ID });
 
   const { response } = bank.useAccountBalances();
 
@@ -208,9 +210,9 @@ function App() {
       <div style={cl.container}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <SignUp />
+          <Deposit />
           <Transfer />
         </div>
-        <Deposit />
       </div>
       <Accounts />
     </Layout>
