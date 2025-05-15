@@ -1,6 +1,10 @@
 import { Mutation, RebootClientProvider } from "@reboot-dev/reboot-react";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
-import { SignUpRequest, useAccount, useBank } from "./api/bank/v1/bank_rbt_react";
+import {
+  SignUpRequest,
+  useAccount,
+  useBank,
+} from "./api/bank/v1/bank_rbt_react";
 import "./App.css";
 
 const BANK_ID = "reboot-bank";
@@ -19,7 +23,7 @@ const DepositButton = ({
   const account = useAccount({ id: accountId });
 
   const handleDeposit = async () => {
-    await account.deposit({ amount: BigInt(amount) });
+    await account.deposit({ amount: Number(amount) });
     handleClick();
   };
 
@@ -79,7 +83,7 @@ const SignUp: FC<{}> = () => {
   const bank = useBank({ id: BANK_ID });
 
   const handleClick = () => {
-    bank.signUp({ accountId, initialDeposit: BigInt(initialDeposit) });
+    bank.signUp({ accountId, initialDeposit: Number(initialDeposit) });
     setAccountId("");
     setInitialDeposit("");
   };
@@ -119,7 +123,7 @@ const Transfer: FC<{}> = () => {
   );
 
   const handleClick = () => {
-    bank.transfer({ fromAccountId, toAccountId, amount: BigInt(amount) });
+    bank.transfer({ fromAccountId, toAccountId, amount: Number(amount) });
     setFromAccountId("");
     setToAccountId("");
     setAmount("");
