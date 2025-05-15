@@ -61,7 +61,7 @@ Now you're ready to [run the application](#run-the-application)!
 
 ### Backend - bank-python/backend
 
-Our backend is implemented in Python and we must install its dependencies before
+This backend is implemented in Python and we must install its dependencies before
 running it. The most notable of those dependencies is the `reboot` PyPI
 distribution, which contains both the Reboot CLI (`rbt`) and the `reboot`
 Python package.
@@ -87,7 +87,7 @@ arguments that get expanded when running `rbt dev run`.
 
 ### Backend - bank-nodejs/backnd
 
-Our backend is implemented in TS and we must install its dependencies before
+This backend is implemented in TS and we must install its dependencies before
 running it. The most notable of those dependencies is the `@reboot-dev/reboot`
 NPM package, which contains both the Reboot CLI (`rbt`) and the `reboot`
 TS package.
@@ -119,4 +119,4 @@ npm start
 ```
 
 If using VSCode, the page will load automatically.
-If not using VSCode, visit [http://127.0.0.1:3000](http://127.0.0.1:3000).
+If not using VSCode, visit [http://localhost:3000](http://localhost:3000).
